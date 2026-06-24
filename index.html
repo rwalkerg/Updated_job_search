@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Dashboard</title>
+    <link rel="icon" href="data:image/svg+xml,%3csvg width='136.42979mm' height='131.30911mm' viewBox='0 0 136.42979 131.30911' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cg transform='translate(-44.98892,-70.59236)'%3e%3cg transform='matrix(0.26458333,0,0,0.26458333,-46.483354,30.22146)'%3e%3crect style='fill:%238fe5ba;fill-opacity:1' width='515.6402' height='496.28641' x='345.72198' y='152.58293' /%3e%3cpath d='m 822.984,565.65924 -73.828,-73.828 c -10.04,-10.04 -23.625,-13.584 -36.619,-11.222 l -25.987,-25.987 c 23.034,-29.531 36.619,-67.331 36.619,-107.494 0,-97.453 -79.735,-177.187 -177.188,-177.187 -97.453,0 -177.187,79.734 -177.187,177.187 0,97.453 79.734,177.188 177.187,177.188 40.163,0 77.372,-13.585 107.494,-36.619 l 25.988,25.988 c -2.363,12.993 1.181,26.578 11.221,36.618 l 73.828,73.828 c 8.269,8.269 18.9,12.404 29.532,12.404 10.631,0 21.262,-4.135 29.531,-12.404 15.356,-16.537 15.356,-42.525 -0.591,-58.472 z m -277.593,-77.371 c -77.963,0 -141.75,-63.788 -141.75,-141.75 0,-77.963 63.787,-141.75 141.75,-141.75 77.962,0 141.75,63.787 141.75,141.75 0,77.962 -63.788,141.75 -141.75,141.75 z' /%3e%3cg%3e%3cg%3e%3cg%3e%3cpath d='m 562.333,341.667 c 0,5.866 -4.8,10.666 -10.666,10.666 H 541 c -5.867,0 -10.667,-4.8 -10.667,-10.666 v -5.334 H 439.667 V 411 c 0,5.867 4.8,10.667 10.666,10.667 h 192 C 648.2,421.667 653,416.867 653,411 v -74.667 h -90.667 z' /%3e%3cpath d='M 642.333,272.333 H 589 V 255 c 0,-10.4 -8.267,-18.667 -18.667,-18.667 h -48 c -10.4,0 -18.666,8.267 -18.666,18.667 v 17.333 h -53.334 c -5.866,0 -10.666,4.8 -10.666,10.667 v 42.667 h 90.666 v -5.334 h 32 v 5.334 H 653 V 283 c 0,-5.867 -4.8,-10.667 -10.667,-10.667 m -122.666,0 V 255 c 0,-1.6 1.066,-2.667 2.666,-2.667 h 48 c 1.6,0 2.667,1.067 2.667,2.667 v 17.333 z' /%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #8fe5ba; /* Color from user's logo */
+            color: #134e4a; /* Dark Teal for text */
+        }
+        .tab-active {
+            background-color: #f0fdfa;
+            color: #0f766e;
+            border-bottom: 2px solid #0d9488;
+        }
+        .tab-inactive {
+            background-color: #14b8a6; /* Mid-range Teal */
+            color: #f0fdfa;
+        }
+        .tab-inactive:hover {
+            background-color: #0d9488; /* Darker Teal on hover */
+        }
+        .content-box {
+            background-color: #f0fdfa;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .header-box {
+            background-color: #f0fdfa;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .btn-primary {
+            background-color: #0d9488; /* Dark Teal */
+            color: white;
+            border-color: #0f766e;
+        }
+        .btn-primary:hover { background-color: #0f766e; }
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            border-color: #ccc;
+        }
+        .btn-secondary:hover { background-color: #e0e0e0; }
+        .btn-danger {
+            background-color: #f87171;
+            color: white;
+            border-color: #f87171;
+        }
+        .btn-danger:hover { background-color: #ef4444; }
+        
+        /* Leaflet Map Container */
+        #map { 
+            height: calc(100vh - 250px); 
+            width: 100%;
+            border-radius: 0.5rem;
+        }
+        
+        /* Custom scrollbar for lists */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f0fdfa;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #5eead4;
+            border-radius: 10px;
+            border: 2px solid #f0fdfa;
+        }
+        /* Style for updated job boards */
+        .has-update {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .modal {
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-body {
+            resize: both;
+            overflow: auto;
+        }
+        .app-item.active {
+            background-color: #dbeafe; /* Light blue background */
+            border-left: 4px solid #3b82f6; /* Blue left border */
+        }
+    </style>
+</head>
+<body class="antialiased flex items-center justify-center min-h-screen">
+
+    <div id="auth-container" class="w-full max-w-md">
+        <div class="bg-white shadow-lg rounded-lg p-8">
+            <div class="text-center mb-6">
+                <svg
+                   viewBox="0 0 136.42979 131.30911"
+                   version="1.1"
+                   xmlns="http://www.w3.org/2000/svg"
+                   class="w-24 h-24 mx-auto">
+                   <g
+                     transform="translate(-44.98892,-70.59236)">
+                     <g
+                       transform="matrix(0.26458333,0,0,0.26458333,-46.483354,30.22146)">
+                       <rect
+                         style="fill:#8fe5ba;fill-opacity:1"
+                         width="515.6402"
+                         height="496.28641"
+                         x="345.72198"
+                         y="152.58293" />
+                       <path
+                         d="m 822.984,565.65924 -73.828,-73.828 c -10.04,-10.04 -23.625,-13.584 -36.619,-11.222 l -25.987,-25.987 c 23.034,-29.531 36.619,-67.331 36.619,-107.494 0,-97.453 -79.735,-177.187 -177.188,-177.187 -97.453,0 -177.187,79.734 -177.187,177.187 0,97.453 79.734,177.188 177.187,177.188 40.163,0 77.372,-13.585 107.494,-36.619 l 25.988,25.988 c -2.363,12.993 1.181,26.578 11.221,36.618 l 73.828,73.828 c 8.269,8.269 18.9,12.404 29.532,12.404 10.631,0 21.262,-4.135 29.531,-12.404 15.356,-16.537 15.356,-42.525 -0.591,-58.472 z m -277.593,-77.371 c -77.963,0 -141.75,-63.788 -141.75,-141.75 0,-77.963 63.787,-141.75 141.75,-141.75 77.962,0 141.75,63.787 141.75,141.75 0,77.962 -63.788,141.75 -141.75,141.75 z" />
+                       <g>
+                         <g>
+                           <g>
+                             <path
+                               d="m 562.333,341.667 c 0,5.866 -4.8,10.666 -10.666,10.666 H 541 c -5.867,0 -10.667,-4.8 -10.667,-10.666 v -5.334 H 439.667 V 411 c 0,5.867 4.8,10.667 10.666,10.667 h 192 C 648.2,421.667 653,416.867 653,411 v -74.667 h -90.667 z" />
+                             <path
+                               d="M 642.333,272.333 H 589 V 255 c 0,-10.4 -8.267,-18.667 -18.667,-18.667 h -48 c -10.4,0 -18.666,8.267 -18.666,18.667 v 17.333 h -53.334 c -5.866,0 -10.666,4.8 -10.666,10.667 v 42.667 h 90.666 v -5.334 h 32 v 5.334 H 653 V 283 c 0,-5.867 -4.8,-10.667 -10.667,-10.667 m -122.666,0 V 255 c 0,-1.6 1.066,-2.667 2.666,-2.667 h 48 c 1.6,0 2.667,1.067 2.667,2.667 v 17.333 z" />
+                           </g>
+                         </g>
+                       </g>
+                     </g>
+                   </g>
+                </svg>
+            </div>
+            <h2 id="auth-title" class="text-2xl font-bold text-center mb-4">Login</h2>
+            <p id="auth-error" class="text-red-500 text-center mb-4"></p>
+            <div class="space-y-4">
+                <input id="email-input" type="email" placeholder="Email" class="w-full p-3 border rounded-md">
+                <input id="password-input" type="password" placeholder="Password" class="w-full p-3 border rounded-md">
+            </div>
+            <div class="mt-6 space-y-2">
+                <button id="login-btn" class="w-full btn btn-primary">Login</button>
+                <button id="register-btn" class="w-full btn btn-secondary">Register</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-container" class="container mx-auto p-4 max-w-7xl hidden">
+
+        <div class="mb-2 p-4 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center gap-4">
+                <svg
+                   viewBox="0 0 136.42979 131.30911"
+                   version="1.1"
+                   xmlns="http://www.w3.org/2000/svg"
+                   class="w-24 h-24">
+                   <g transform="translate(-44.98892,-70.59236)"><g transform="matrix(0.26458333,0,0,0.26458333,-46.483354,30.22146)"><rect style="fill:#8fe5ba;fill-opacity:1" width="515.6402" height="496.28641" x="345.72198" y="152.58293" /><path d="m 822.984,565.65924 -73.828,-73.828 c -10.04,-10.04 -23.625,-13.584 -36.619,-11.222 l -25.987,-25.987 c 23.034,-29.531 36.619,-67.331 36.619,-107.494 0,-97.453 -79.735,-177.187 -177.188,-177.187 -97.453,0 -177.187,79.734 -177.187,177.187 0,97.453 79.734,177.188 177.187,177.188 40.163,0 77.372,-13.585 107.494,-36.619 l 25.988,25.988 c -2.363,12.993 1.181,26.578 11.221,36.618 l 73.828,73.828 c 8.269,8.269 18.9,12.404 29.532,12.404 10.631,0 21.262,-4.135 29.531,-12.404 15.356,-16.537 15.356,-42.525 -0.591,-58.472 z m -277.593,-77.371 c -77.963,0 -141.75,-63.788 -141.75,-141.75 0,-77.963 63.787,-141.75 141.75,-141.75 77.962,0 141.75,63.787 141.75,141.75 0,77.962 -63.788,141.75 -141.75,141.75 z" /><g><g><g><path d="m 562.333,341.667 c 0,5.866 -4.8,10.666 -10.666,10.666 H 541 c -5.867,0 -10.667,-4.8 -10.667,-10.666 v -5.334 H 439.667 V 411 c 0,5.867 4.8,10.667 10.666,10.667 h 192 C 648.2,421.667 653,416.867 653,411 v -74.667 h -90.667 z" /><path d="M 642.333,272.333 H 589 V 255 c 0,-10.4 -8.267,-18.667 -18.667,-18.667 h -48 c -10.4,0 -18.666,8.267 -18.666,18.667 v 17.333 h -53.334 c -5.866,0 -10.666,4.8 -10.666,10.667 v 42.667 h 90.666 v -5.334 h 32 v 5.334 H 653 V 283 c 0,-5.867 -4.8,-10.667 -10.667,-10.667 m -122.666,0 V 255 c 0,-1.6 1.066,-2.667 2.666,-2.667 h 48 c 1.6,0 2.667,1.067 2.667,2.667 v 17.333 z" /></g></g></g></g></g>
+                </svg>
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">Job Search Dashboard</h1>
+            </div>
+            <div class="bg-teal-800 text-white p-3 rounded-lg shadow-md text-right mt-4 sm:mt-0">
+                <p id="user-email-display" class="font-medium">Loading...</p>
+                <button id="test-api-btn" class="text-sm text-teal-200 hover:underline mr-4">Test API</button>
+                <button id="test-scraper-btn" class="text-sm text-teal-200 hover:underline mr-4">Test Scraper</button>
+                <button id="sign-out-btn" class="text-sm text-teal-200 hover:underline">Sign Out</button>
+            </div>
+        </div>
+
+        <header class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div id="timer-label" class="header-box text-center text-2xl md:col-span-1 flex items-center justify-center p-4">
+                Loading countdown...
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center md:col-span-1">
+                 <div id="open-count-box" class="header-box text-center p-2 transition-colors duration-300 flex flex-col items-center justify-center">
+                    <span id="open-count-label" class="text-3xl md:text-4xl font-bold">0</span>
+                    <span class="text-sm">Open</span>
+                 </div>
+                 <div id="submitted-count-box" class="header-box text-center p-2 transition-colors duration-300 flex flex-col items-center justify-center">
+                    <span id="submitted-count-label" class="text-3xl md:text-4xl font-bold">0</span>
+                    <span class="text-sm">Submitted</span>
+                 </div>
+                 <div id="rejected-count-box" class="header-box text-center p-2 transition-colors duration-300 flex flex-col items-center justify-center">
+                    <span id="rejected-count-label" class="text-3xl md:text-4xl font-bold">0</span>
+                    <span class="text-sm">Rejected</span>
+                 </div>
+            </div>
+        </header>
+
+        <div class="mb-4">
+            <div class="flex border-b border-gray-800">
+                <button data-tab="dashboard" class="tab-btn px-4 py-2 font-semibold text-sm md:text-base tab-active">Dashboard</button>
+                <button data-tab="calendar" class="tab-btn px-4 py-2 font-semibold text-sm md:text-base tab-inactive">Calendar & Tasks</button>
+                <button data-tab="map" class="tab-btn px-4 py-2 font-semibold text-sm md:text-base tab-inactive">Map View</button>
+            </div>
+        </div>
+
+        <main>
+            <div id="dashboard-tab" class="tab-content grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-4">
+                    <div id="applications-section" class="content-box p-4 flex flex-col h-full">
+                        <h2 class="text-xl font-bold mb-4">Applications</h2>
+                        <div class="space-y-3 mb-4">
+                            <input id="job-name-entry" type="text" placeholder="Job Name" class="w-full p-2 border rounded-md">
+                            <div class="flex flex-col sm:flex-row items-center gap-2">
+                                <input id="job-link-entry" type="text" placeholder="Job Link (URL)" class="w-full p-2 border rounded-md">
+                                <button id="autofill-btn" class="btn btn-primary flex-shrink-0 w-full sm:w-auto"><i class="fas fa-bolt"></i> Auto-Fill</button>
+                            </div>
+                            <input id="location-entry" type="text" placeholder="e.g., Syracuse, NY" class="w-full p-2 border rounded-md">
+                            <input id="salary-entry" type="text" placeholder="e.g., $12,300" class="w-full p-2 border rounded-md">
+                            <input type="hidden" id="job-description-hidden">
+                            <div class="flex items-center space-x-4">
+                                <span class="font-semibold">Status:</span>
+                                <label><input type="radio" name="app-status" value="Open" checked> Open</label>
+                                <label><input type="radio" name="app-status" value="Submitted"> Submitted</label>
+                                <label><input type="radio" name="app-status" value="Rejected"> Rejected</label>
+                                <label><input type="radio" name="app-status" value="Parked"> Parked</label>
+                            </div>
+                             <div class="flex items-center gap-2">
+                                <select id="source-select" class="w-full p-2 border rounded-md">
+                                    <option value="">Source...</option>
+                                    <option value="LinkedIn">LinkedIn</option>
+                                    <option value="Indeed">Indeed</option>
+                                    <option value="Company Website">Company Website</option>
+                                    <option value="Referral">Referral</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <input id="source-other-input" type="text" placeholder="Other Source" class="w-full p-2 border rounded-md hidden">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <label for="potential-entry" class="font-semibold">Potential:</label>
+                                <select id="potential-entry" class="w-full p-2 border rounded-md">
+                                    <option value="10">10 (High)</option>
+                                    <option value="9">9</option>
+                                    <option value="8">8</option>
+                                    <option value="7">7</option>
+                                    <option value="6">6</option>
+                                    <option value="5" selected>5 (Medium)</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1 (Low)</option>
+                                </select>
+                            </div>
+                             <input id="due-date-entry" type="date" class="w-full p-2 border rounded-md">
+                        </div>
+                        <div id="app-buttons" class="flex flex-wrap gap-2 mb-4">
+                            <button id="add-app-btn" class="btn btn-primary">Add App</button>
+                            <button id="save-app-btn" class="btn btn-primary hidden">Save Changes</button>
+                            <button id="cancel-edit-app-btn" class="btn btn-secondary hidden">Cancel</button>
+                        </div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold">Application List</h3>
+                            <select id="app-sort-by" class="p-1 border rounded-md text-sm">
+                                <option value="Status">Sort by Status</option>
+                                <option value="Potential">Sort by Potential</option>
+                                <option value="Name">Sort by Name</option>
+                                <option value="Date">Sort by Date</option>
+                            </select>
+                        </div>
+                        <div id="application-list" class="flex-grow overflow-y-auto custom-scrollbar border rounded-md p-2 bg-white min-h-[200px]">
+                            </div>
+                    </div>
+                    <div id="skills-section" class="content-box p-4">
+                        <h2 class="text-xl font-bold mb-4">Master Resume</h2>
+                        <textarea id="master-resume-text" class="w-full p-2 border rounded-md h-40 custom-scrollbar" placeholder="Paste your full master resume here, including all work history, skills, and projects..."></textarea>
+                        <button id="save-master-resume-btn" class="btn btn-primary mt-2">Save Master Resume</button>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="content-box p-4 flex flex-col">
+                        <h2 class="text-xl font-bold mb-4">To-Do List</h2>
+                        <div class="space-y-3 mb-4">
+                            <input id="todo-name-entry" type="text" placeholder="Task Name" class="w-full p-2 border rounded-md">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input id="todo-due-date-entry" type="date" class="w-full p-2 border rounded-md">
+                                <select id="todo-urgency-entry" class="w-full p-2 border rounded-md">
+                                    <option value="5">Very High</option>
+                                    <option value="4">High</option>
+                                    <option value="3" selected>Medium</option>
+                                    <option value="2">Low</option>
+                                    <option value="1">Very Low</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="todo-buttons" class="flex flex-wrap gap-2 mb-4">
+                            <button id="add-todo-btn" class="btn btn-primary">Add To-Do</button>
+                            <button id="save-todo-btn" class="btn btn-primary hidden">Save Changes</button>
+                            <button id="cancel-edit-todo-btn" class="btn btn-secondary hidden">Cancel</button>
+                        </div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold">Tasks</h3>
+                            <select id="todo-sort-by" class="p-1 border rounded-md text-sm">
+                                <option value="Urgency">Sort by Urgency</option>
+                                <option value="DueDate">Sort by Due Date</option>
+                                <option value="Name">Sort by Name</option>
+                            </select>
+                        </div>
+                        <div id="todo-list" class="flex-grow overflow-y-auto custom-scrollbar border rounded-md p-2 bg-white min-h-[150px]">
+                            </div>
+                    </div>
+                    <div id="boards-section" class="content-box p-4 flex flex-col h-full">
+                        <h2 class="text-xl font-bold mb-4">Job Boards & Companies</h2>
+                        <div class="space-y-3 mb-4">
+                            <input id="board-name-entry" type="text" placeholder="Board or Company Name" class="w-full p-2 border rounded-md">
+                            <input id="board-link-entry" type="text" placeholder="Link (URL)" class="w-full p-2 border rounded-md">
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button id="add-board-btn" class="btn btn-primary">Add</button>
+                            <button id="save-board-btn" class="btn btn-secondary">Save</button>
+                            <button id="check-updates-btn" class="btn btn-secondary flex items-center gap-2">
+                                <i class="fas fa-sync-alt"></i>
+                                <span class="btn-text">Check Updates</span>
+                                <i class="fas fa-spinner fa-spin loader hidden"></i>
+                            </button>
+                        </div>
+                        <h3 class="font-semibold mb-2">Board List</h3>
+                        <div id="boards-list" class="flex-grow overflow-y-auto custom-scrollbar border rounded-md p-2 bg-white min-h-[150px]">
+                            </div>
+                    </div>
+                    <div id="files-section" class="content-box p-4 flex flex-col">
+                            <h2 class="text-xl font-bold mb-4">Files & Links</h2>
+                            <div class="space-y-3 mb-4">
+                                <input id="file-name-entry" type="text" placeholder="File Name (e.g., Main Resume)" class="w-full p-2 border rounded-md">
+                                <input id="file-link-entry" type="text" placeholder="Link to Google Doc, etc." class="w-full p-2 border rounded-md">
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <button id="add-file-btn" class="btn btn-primary">Add File</button>
+                                <button id="save-file-btn" class="btn btn-primary hidden">Save Changes</button>
+                            </div>
+                            <h3 class="font-semibold mb-2">File List</h3>
+                            <div id="files-list" class="flex-grow overflow-y-auto custom-scrollbar border rounded-md p-2 bg-white min-h-[150px]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="calendar-tab" class="tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="content-box p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <button id="prev-month-btn" class="btn btn-secondary">&lt;</button>
+                            <h2 id="calendar-month-year" class="text-xl font-bold"></h2>
+                            <button id="next-month-btn" class="btn btn-secondary">&gt;</button>
+                        </div>
+                        <div id="calendar-grid" class="grid grid-cols-7 gap-1 text-center">
+                            </div>
+                    </div>
+                    <div class="content-box p-4 flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Tasks</h2>
+                        </div>
+                        <div class="space-y-3 mb-4">
+                            <input id="task-entry" type="text" placeholder="Task Name" class="w-full p-2 border rounded-md">
+                            <input id="task-due-date-entry" type="date" class="w-full p-2 border rounded-md">
+                             <div class="flex items-center space-x-4">
+                                <span class="font-semibold">Status:</span>
+                                <label><input type="radio" name="task-status" value="Pending" checked> Pending</label>
+                                <label><input type="radio" name="task-status" value="Completed"> Completed</label>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button id="add-task-btn" class="btn btn-primary">Add Task</button>
+                            <button id="save-task-btn" class="btn btn-secondary">Save Changes</button>
+                        </div>
+                        <h3 class="font-semibold mb-2">Task List</h3>
+                        <div id="task-list" class="flex-grow overflow-y-auto custom-scrollbar border rounded-md p-2 bg-white min-h-[200px]">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="map-tab" class="tab-content hidden">
+                <div class="content-box p-4">
+                    <div id="map-toggles" class="flex flex-wrap gap-x-4 gap-y-2 p-2 bg-white rounded-md mb-2 justify-center">
+                        <label class="inline-flex items-center"><input type="checkbox" class="map-toggle" value="Open" checked> <span class="ml-2">Open</span></label>
+                        <label class="inline-flex items-center"><input type="checkbox" class="map-toggle" value="Submitted" checked> <span class="ml-2">Submitted</span></label>
+                        <label class="inline-flex items-center"><input type="checkbox" class="map-toggle" value="Rejected" checked> <span class="ml-2">Rejected</span></label>
+                        <label class="inline-flex items-center"><input type="checkbox" class="map-toggle" value="Parked" checked> <span class="ml-2">Parked</span></label>
+                    </div>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </main>
+        
+        <div id="toast" class="fixed bottom-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300">
+            <span id="toast-message"></span>
+        </div>
+
+        <div id="ai-modal" class="fixed inset-0 z-50 items-start pt-10 justify-center hidden modal">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 flex flex-col max-h-[90vh] modal-body">
+                <div class="p-4 border-b flex justify-between items-center flex-shrink-0">
+                    <h3 id="ai-modal-title" class="text-xl font-bold">AI Assistant</h3>
+                    <button id="close-ai-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+                </div>
+                <div class="p-4 flex-grow overflow-y-auto">
+                    <details class="mb-4 bg-gray-50 p-2 rounded-md border">
+                        <summary class="cursor-pointer text-sm font-semibold text-teal-700">⚙️ Edit AI Prompt Template</summary>
+                        <p class="text-xs text-gray-500 mt-2 mb-1">Use <b>{skills}</b>, <b>{notes}</b>, and <b>{link}</b> as variables.</p>
+                        <textarea id="prompt-template" class="w-full p-2 border rounded-md h-64 text-sm font-mono custom-scrollbar">You are a ruthless, expert technical recruiter specializing in placing doctoral-level researchers into commercial industry roles.
+
+Master Resume: """{skills}"""
+Specific Notes: """{notes}"""
+Target Job URL: {link}
+
+Task: Draft a highly targeted, impactful resume for this specific job. 
+
+Strict Constraints:
+1. Output ONLY valid Markdown. Start immediately with the candidate's name as an H1 (# Name). Do not include ANY conversational text, preambles, or explanations.
+2. Structure the resume using standard industry headings (H2): Professional Summary, Core Competencies, Experience, and Education.
+3. Translation: Strip out academic bloat. Focus entirely on translational skills—high-throughput workflows, data pipeline management, cross-functional collaboration, and project execution.
+4. Impact: Rewrite experience bullets to emphasize quantifiable outcomes and technical proficiency relevant to the target job description.
+5. Formatting: Use bullet points for all lists. Keep it concise enough to fit on one or two printed pages.</textarea>
+                    </details>
+                    
+                    <div id="ai-modal-content" class="prose max-w-none"></div>
+                    <textarea id="notes-textarea" class="hidden w-full h-64 p-2 border rounded-md"></textarea>
+                    <div id="ai-modal-loader" class="text-center p-8">
+                        <i class="fas fa-spinner fa-spin text-4xl text-teal-500"></i>
+                        <p class="mt-2">Generating content...</p>
+                    </div>
+                </div>
+                <div class="p-4 border-t text-right space-x-2 flex-shrink-0">
+                    <button id="copy-ai-content-btn" class="btn btn-secondary hidden">Copy Text</button>
+                    <button id="save-notes-btn" class="btn btn-primary hidden">Save Notes</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection, query, writeBatch, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCE8WassUmnybcVLJ_Zy9eEDG2CGGirvcA",
+            authDomain: "jobdashboard3.firebaseapp.com",
+            projectId: "jobdashboard3",
+            storageBucket: "jobdashboard3.firebasestorage.app",
+            messagingSenderId: "668892379456",
+            appId: "1:668892379456:web:c1fe22560f4cffdefca2a5"
+        };
+        const GEMINI_API_KEY = "AIzaSyB-by78xUSI7BpEF6nS0ljWz8tsuP_C9e8"; 
+        
+        const appId = 'job-dashboard-app';
+        const TARGET_DATE = "2026-08-30";
+
+        // --- STATE ---
+        let db, auth, userId;
+        let map, geocodeMarker;
+        let currentEditing = {
+            task: null,
+            application: null,
+            file: null,
+            board: null,
+            notes: null,
+            todo: null,
+        };
+        let calendarDate = new Date();
+        let applications = [];
+        let tasks = [];
+        let files = [];
+        let boards = [];
+        let todos = [];
+        let dataListeners = []; // To hold unsubscribe functions
+
+        // --- DOM Elements ---
+        const authContainer = document.getElementById('auth-container');
+        const appContainer = document.getElementById('app-container');
+        const authError = document.getElementById('auth-error');
+        const aiModal = document.getElementById('ai-modal');
+        const aiModalTitle = document.getElementById('ai-modal-title');
+        const aiModalContent = document.getElementById('ai-modal-content');
+        const aiModalLoader = document.getElementById('ai-modal-loader');
+        const notesTextarea = document.getElementById('notes-textarea');
+        const saveNotesBtn = document.getElementById('save-notes-btn');
+        const copyAiContentBtn = document.getElementById('copy-ai-content-btn');
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                setupAuthListeners();
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        // User is signed in
+                        userId = user.uid;
+                        document.getElementById('user-email-display').textContent = user.email;
+                        authContainer.classList.add('hidden');
+                        appContainer.classList.remove('hidden');
+                        
+                        await setupDataListeners();
+                        initializeUI();
+                    } else {
+                        // User is signed out
+                        userId = null;
+                        authContainer.classList.remove('hidden');
+                        appContainer.classList.add('hidden');
+                        // Unsubscribe from old listeners
+                        dataListeners.forEach(unsubscribe => unsubscribe());
+                        dataListeners = [];
+                    }
+                });
+
+            } catch (error) {
+                console.error("Firebase initialization failed:", error);
+                showToast("Error connecting to the database. Check your Firebase config and rules.", "error");
+            }
+        });
+        
+        function setupAuthListeners() {
+            document.getElementById('login-btn').addEventListener('click', async () => {
+                const email = document.getElementById('email-input').value;
+                const password = document.getElementById('password-input').value;
+                authError.textContent = '';
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } catch (error) {
+                    authError.textContent = error.message;
+                }
+            });
+
+            document.getElementById('register-btn').addEventListener('click', async () => {
+                const email = document.getElementById('email-input').value;
+                const password = document.getElementById('password-input').value;
+                authError.textContent = '';
+                try {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                } catch (error) {
+                    authError.textContent = error.message;
+                }
+            });
+
+            document.getElementById('sign-out-btn').addEventListener('click', () => {
+                signOut(auth);
+            });
+        }
+
+        function initializeUI() {
+            updateTimer();
+            setInterval(updateTimer, 60000);
+            setupEventListeners();
+            renderCalendar();
+            initMap();
+        }
+
+        function initMap() {
+            if (map) {
+                map.invalidateSize();
+                return;
+            };
+            map = L.map('map').setView([39.8283, -98.5795], 4); // Center of the US
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+        }
+        
+        // --- DATA LISTENERS - FIXED FOR CORRECT FIREBASE STRUCTURE ---
+        async function setupDataListeners() {
+            if (!userId) return;
+
+            // Clear existing listeners before setting up new ones
+            dataListeners.forEach(unsubscribe => unsubscribe());
+            dataListeners = [];
+
+            // Get reference to the user document
+            const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+
+            // Applications Listener
+            const appQuery = query(collection(userDocRef, 'applications'));
+            const appListener = onSnapshot(appQuery, (snapshot) => {
+                applications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                refreshApplicationList();
+                updateApplicationCounters();
+                refreshMapMarkers();
+            }, err => console.error("Error listening to applications:", err));
+            dataListeners.push(appListener);
+
+            // To-Do Listener
+            const todoQuery = query(collection(userDocRef, 'todos'));
+            const todoListener = onSnapshot(todoQuery, (snapshot) => {
+                todos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                refreshTodoList();
+            }, err => console.error("Error listening to todos:", err));
+            dataListeners.push(todoListener);
+
+            // Tasks Listener
+            const taskQuery = query(collection(userDocRef, 'tasks'));
+            const taskListener = onSnapshot(taskQuery, (snapshot) => {
+                tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                refreshTaskList();
+                renderCalendar();
+            }, err => console.error("Error listening to tasks:", err));
+            dataListeners.push(taskListener);
+
+            // Files Listener
+            const fileQuery = query(collection(userDocRef, 'files'));
+            const fileListener = onSnapshot(fileQuery, (snapshot) => {
+                files = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                refreshFilesList();
+            }, err => console.error("Error listening to files:", err));
+            dataListeners.push(fileListener);
+            
+            // Boards Listener
+            const boardQuery = query(collection(userDocRef, 'boards'));
+            const boardListener = onSnapshot(boardQuery, (snapshot) => {
+                boards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                refreshBoardsList();
+            }, err => console.error("Error listening to boards:", err));
+            dataListeners.push(boardListener);
+
+            // Skills Listener - Fixed path for singledocs subcollection
+            const skillsDocRef = doc(userDocRef, 'singledocs/masterResume');
+            const skillsListener = onSnapshot(skillsDocRef, (doc) => {
+                if (doc.exists()) {
+                    document.getElementById('master-resume-text').value = doc.data().content || '';
+                }
+            }, err => console.error("Error listening to skills:", err));
+            dataListeners.push(skillsListener);
+        }
+
+        // --- UI & EVENT HANDLERS ---
+        function setupEventListeners() {
+            // Tabs
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const tabName = e.target.dataset.tab;
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+                    document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+                    
+                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.replace('tab-active', 'tab-inactive'));
+                    e.target.classList.replace('tab-inactive', 'tab-active');
+
+                    if (tabName === 'map') {
+                        setTimeout(() => map.invalidateSize(), 10);
+                    }
+                });
+            });
+
+            // Applications
+            document.getElementById('add-app-btn').addEventListener('click', addOrUpdateApplication);
+            document.getElementById('save-app-btn').addEventListener('click', addOrUpdateApplication);
+            document.getElementById('cancel-edit-app-btn').addEventListener('click', resetApplicationForm);
+            document.getElementById('app-sort-by').addEventListener('change', refreshApplicationList);
+            document.getElementById('autofill-btn').addEventListener('click', autoFillFromUrl);
+            document.getElementById('source-select').addEventListener('change', (e) => {
+                document.getElementById('source-other-input').classList.toggle('hidden', e.target.value !== 'Other');
+            });
+
+            // Skills
+            document.getElementById('save-master-resume-btn').addEventListener('click', saveMasterResume);
+
+            // To-Do List
+            document.getElementById('add-todo-btn').addEventListener('click', addOrUpdateTodo);
+            document.getElementById('save-todo-btn').addEventListener('click', addOrUpdateTodo);
+            document.getElementById('cancel-edit-todo-btn').addEventListener('click', resetTodoForm);
+            document.getElementById('todo-sort-by').addEventListener('change', refreshTodoList);
+
+            // Boards
+            document.getElementById('add-board-btn').addEventListener('click', addOrUpdateBoard);
+            document.getElementById('save-board-btn').addEventListener('click', addOrUpdateBoard);
+            document.getElementById('check-updates-btn').addEventListener('click', checkAllBoardsForUpdates);
+
+            // Files
+            document.getElementById('add-file-btn').addEventListener('click', addOrUpdateFile);
+            document.getElementById('save-file-btn').addEventListener('click', addOrUpdateFile);
+
+            // Calendar
+            document.getElementById('prev-month-btn').addEventListener('click', () => {
+                calendarDate.setMonth(calendarDate.getMonth() - 1);
+                renderCalendar();
+            });
+            document.getElementById('next-month-btn').addEventListener('click', () => {
+                calendarDate.setMonth(calendarDate.getMonth() + 1);
+                renderCalendar();
+            });
+
+            // Tasks
+            document.getElementById('add-task-btn').addEventListener('click', addOrUpdateTask);
+            document.getElementById('save-task-btn').addEventListener('click', addOrUpdateTask);
+
+            // AI & Notes Modal
+            document.getElementById('close-ai-modal-btn').addEventListener('click', () => {
+                aiModal.classList.add('hidden');
+                aiModal.classList.remove('flex');
+            });
+            document.getElementById('copy-ai-content-btn').addEventListener('click', (e) => {
+                const htmlToCopy = aiModalContent.innerHTML;
+                if (htmlToCopy) {
+                    copyRichTextToClipboard(htmlToCopy);
+                }
+            });
+            saveNotesBtn.addEventListener('click', saveNotes);
+            document.getElementById('test-api-btn').addEventListener('click', testApiKey);
+            document.getElementById('test-scraper-btn').addEventListener('click', testScraper);
+            
+            // Map Toggles
+            document.querySelectorAll('.map-toggle').forEach(checkbox => {
+                checkbox.addEventListener('change', refreshMapMarkers);
+            });
+        }
+        
+        // --- COUNTDOWN TIMER ---
+        function updateTimer() {
+            const timerLabel = document.getElementById('timer-label');
+            const targetDate = new Date(TARGET_DATE);
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                timerLabel.textContent = `Countdown: ${days} day${days !== 1 ? 's' : ''} remaining`;
+            } else {
+                timerLabel.textContent = "Target date has passed!";
+            }
+        }
+
+        // --- APPLICATIONS ---
+        async function addOrUpdateApplication() {
+            const name = document.getElementById('job-name-entry').value.trim();
+            if (!name) return showToast("Job name is required.", "error");
+
+            const location = document.getElementById('location-entry').value.trim();
+            const link = document.getElementById('job-link-entry').value.trim();
+            const status = document.querySelector('input[name="app-status"]:checked').value;
+            const notes = document.getElementById('job-description-hidden').value;
+            const dueDate = document.getElementById('due-date-entry').value;
+            let source = document.getElementById('source-select').value;
+            if (source === 'Other') {
+                source = document.getElementById('source-other-input').value.trim();
+            }
+            const salary = document.getElementById('salary-entry').value.trim();
+            const potential = document.getElementById('potential-entry').value;
+
+            // Duplicate check logic
+            if (!currentEditing.application && link) {
+                const newUrl = normalizeUrl(link);
+                const isDuplicate = applications.some(app => normalizeUrl(app.link) === newUrl);
+                if (isDuplicate) {
+                    showToast("This application link already exists.", "error");
+                    return;
+                }
+            }
+
+            let lat = null, lon = null;
+            if (location) {
+                const coords = await geocodeAddress(location);
+                if (coords) {
+                    lat = coords.lat;
+                    lon = coords.lon;
+                }
+            }
+
+            const appData = { name, link, location, status, lat, lon, source, dueDate, salary, potential };
+            
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                
+                if (currentEditing.application) {
+                    // Check if status changed to "Submitted"
+                    const previousApp = applications.find(app => app.id === currentEditing.application);
+                    if (previousApp && previousApp.status !== 'Submitted' && status === 'Submitted') {
+                        // Add a task for the submission date
+                        const today = new Date().toISOString().slice(0, 10);
+                        const taskData = {
+                            name: `Submitted: ${name}`,
+                            date: today,
+                            status: 'Pending'
+                        };
+                        const tasksCollectionRef = collection(userDocRef, 'tasks');
+                        await addDoc(tasksCollectionRef, taskData);
+                        showToast("Submission task added to calendar!");
+                    }
+
+                    const docRef = doc(userDocRef, 'applications', currentEditing.application);
+                    await updateDoc(docRef, appData);
+                    showToast("Application updated successfully!");
+                } else {
+                    appData.createdAt = serverTimestamp(); // Add timestamp on creation
+                    if(notes) appData.notes = notes;
+                    const collectionRef = collection(userDocRef, 'applications');
+                    await addDoc(collectionRef, appData);
+                    showToast("Application added successfully!");
+                }
+                resetApplicationForm();
+            } catch (error) {
+                console.error("Error saving application:", error);
+                showToast("Failed to save application.", "error");
+            }
+        }
+        
+        function editApplication(docId) {
+            const app = applications.find(a => a.id === docId);
+            if (!app) return;
+            
+            currentEditing.application = docId;
+            document.getElementById('job-name-entry').value = app.name;
+            document.getElementById('job-link-entry').value = app.link || '';
+            document.getElementById('location-entry').value = app.location || '';
+            document.querySelector(`input[name="app-status"][value="${app.status}"]`).checked = true;
+            document.getElementById('due-date-entry').value = app.dueDate || '';
+            document.getElementById('salary-entry').value = app.salary || '';
+            document.getElementById('potential-entry').value = app.potential || '5';
+
+            const sourceSelect = document.getElementById('source-select');
+            const sourceOtherInput = document.getElementById('source-other-input');
+            const standardSources = Array.from(sourceSelect.options).map(opt => opt.value);
+            if (app.source && standardSources.includes(app.source)) {
+                sourceSelect.value = app.source;
+                sourceOtherInput.classList.add('hidden');
+            } else if (app.source) {
+                sourceSelect.value = 'Other';
+                sourceOtherInput.value = app.source;
+                sourceOtherInput.classList.remove('hidden');
+            } else {
+                sourceSelect.value = '';
+                sourceOtherInput.classList.add('hidden');
+            }
+            
+            document.getElementById('add-app-btn').classList.add('hidden');
+            document.getElementById('save-app-btn').classList.remove('hidden');
+            document.getElementById('cancel-edit-app-btn').classList.remove('hidden');
+
+            highlightAppItem(docId);
+            
+            showToast(`Editing: ${app.name}`);
+            document.getElementById('job-name-entry').focus();
+        }
+
+        async function deleteApplication(docId) {
+            highlightAppItem(docId);
+            if (!confirm("Are you sure you want to delete this application?")) {
+                highlightAppItem(null);
+                return;
+            }
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                await deleteDoc(doc(userDocRef, 'applications', docId));
+                showToast("Application deleted.");
+                if (currentEditing.application === docId) resetApplicationForm();
+            } catch (error) {
+                console.error("Error deleting application:", error);
+                showToast("Failed to delete application.", "error");
+            }
+        }
+
+        function resetApplicationForm() {
+            currentEditing.application = null;
+            document.getElementById('job-name-entry').value = '';
+            document.getElementById('job-link-entry').value = '';
+            document.getElementById('location-entry').value = '';
+            document.getElementById('job-description-hidden').value = '';
+            document.getElementById('due-date-entry').value = '';
+            document.getElementById('salary-entry').value = '';
+            document.getElementById('source-select').value = '';
+            document.getElementById('source-other-input').value = '';
+            document.getElementById('source-other-input').classList.add('hidden');
+            document.getElementById('potential-entry').value = '5';
+            document.querySelector('input[name="app-status"][value="Open"]').checked = true;
+
+            document.getElementById('add-app-btn').classList.remove('hidden');
+            document.getElementById('save-app-btn').classList.add('hidden');
+            document.getElementById('cancel-edit-app-btn').classList.add('hidden');
+
+            highlightAppItem(null);
+        }
+
+        function refreshApplicationList() {
+            const listEl = document.getElementById('application-list');
+            listEl.innerHTML = '';
+            
+            const sortBy = document.getElementById('app-sort-by').value;
+            const statusOrder = {"Open": 0, "Submitted": 1, "Parked": 2, "Rejected": 3};
+            
+            const sortedApps = [...applications].sort((a, b) => {
+                if (sortBy === 'Status') {
+                    const statusA = statusOrder[a.status] ?? 4;
+                    const statusB = statusOrder[b.status] ?? 4;
+                    if (statusA !== statusB) return statusA - statusB;
+                }
+                if (sortBy === 'Potential') {
+                    return (b.potential || 0) - (a.potential || 0);
+                }
+                if (sortBy === 'Date') {
+                    const dateA = a.createdAt ? a.createdAt.toDate() : 0;
+                    const dateB = b.createdAt ? b.createdAt.toDate() : 0;
+                    return dateB - dateA; // Newest first
+                }
+                // Default to Name sort
+                return a.name.localeCompare(b.name);
+            });
+
+            if (sortedApps.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-500">No applications yet.</p>`;
+                return;
+            }
+
+            sortedApps.forEach(app => {
+                const statusColors = {
+                    Open: 'text-orange-500 font-semibold',
+                    Submitted: 'text-green-600 font-semibold',
+                    Rejected: 'text-gray-500 line-through',
+                    Parked: 'text-teal-800 font-semibold'
+                };
+                const notesBtnClass = (app.notes && app.notes.trim() !== '') ? 'btn-primary' : 'btn-secondary';
+
+                const item = document.createElement('div');
+                item.className = 'app-item p-2 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center';
+                item.innerHTML = `
+                    <div class="mb-2 sm:mb-0">
+                        <p class="${statusColors[app.status] || ''}">${app.name}</p>
+                        <p class="text-sm text-gray-600">${app.location || 'No location'}</p>
+                        ${app.salary ? `<p class="text-sm text-green-700 font-medium">${app.salary}</p>` : ''}
+                        ${app.potential ? `<p class="text-xs text-gray-500"><i class="fas fa-star text-yellow-400"></i> Potential: ${app.potential}/10</p>` : ''}
+                        ${app.source ? `<p class="text-xs text-gray-500">Source: ${app.source}</p>` : ''}
+                        ${app.dueDate ? `<p class="text-xs font-semibold text-red-500">Due: ${app.dueDate}</p>` : ''}
+                        ${app.link ? `<a href="${app.link}" target="_blank" class="text-sm text-blue-500 hover:underline">View Job <i class="fas fa-external-link-alt"></i></a>` : ''}
+                    </div>
+                    <div class="flex gap-2 self-end sm:self-center">
+                        <button class="edit-app-btn btn btn-sm btn-secondary" data-id="${app.id}"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="notes-btn btn btn-sm ${notesBtnClass}" data-id="${app.id}"><i class="fas fa-sticky-note"></i></button>
+                        <button class="ai-draft-btn btn btn-sm btn-primary" data-id="${app.id}"><i class="fas fa-magic"></i></button>
+                        <button class="delete-app-btn btn btn-sm btn-danger" data-id="${app.id}"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+            
+            listEl.querySelectorAll('.edit-app-btn').forEach(btn => btn.addEventListener('click', (e) => editApplication(e.currentTarget.dataset.id)));
+            listEl.querySelectorAll('.delete-app-btn').forEach(btn => btn.addEventListener('click', (e) => deleteApplication(e.currentTarget.dataset.id)));
+            listEl.querySelectorAll('.ai-draft-btn').forEach(btn => btn.addEventListener('click', (e) => draftResume(e.currentTarget.dataset.id)));
+            listEl.querySelectorAll('.notes-btn').forEach(btn => btn.addEventListener('click', (e) => openNotesModal(e.currentTarget.dataset.id)));
+        }
+        
+        function updateApplicationCounters() {
+            const counts = { Open: 0, Submitted: 0, Rejected: 0 };
+            applications.forEach(app => {
+                if (app.status in counts) {
+                    counts[app.status]++;
+                }
+            });
+
+            const openBox = document.getElementById('open-count-box');
+            const submittedBox = document.getElementById('submitted-count-box');
+            const rejectedBox = document.getElementById('rejected-count-box');
+
+            openBox.querySelector('span:first-child').textContent = counts.Open;
+            submittedBox.querySelector('span:first-child').textContent = counts.Submitted;
+            rejectedBox.querySelector('span:first-child').textContent = counts.Rejected;
+
+            // Reset and apply classes
+            openBox.className = 'header-box text-center p-2 transition-colors duration-300 flex flex-col items-center justify-center bg-orange-100 text-orange-600';
+            submittedBox.className = 'header-box text-center p-2 transition-colors duration-300 flex flex-col items-center justify-center bg-green-100 text-green-800';
+            rejectedBox.className = 'header-box text-center p-2 transition-colors duration-300 flex flex-col items-center justify-center bg-gray-200 text-gray-600';
+        }
+        
+        // --- MASTER RESUME ---
+        async function saveMasterResume() {
+            const content = document.getElementById('master-resume-text').value;
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                const skillsDocRef = doc(userDocRef, 'singledocs/masterResume');
+                await setDoc(skillsDocRef, { content });
+                showToast("Master Resume saved successfully!");
+            } catch (error) {
+                console.error("Error saving master resume:", error);
+                showToast("Failed to save master resume.", "error");
+            }
+        }
+
+        // --- TO-DO LIST ---
+        async function addOrUpdateTodo() {
+            const name = document.getElementById('todo-name-entry').value.trim();
+            if (!name) return showToast("Task name is required.", "error");
+
+            const dueDate = document.getElementById('todo-due-date-entry').value;
+            const urgency = document.getElementById('todo-urgency-entry').value;
+
+            const todoData = { name, dueDate, urgency, completed: false };
+
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                
+                if (currentEditing.todo) {
+                    // This is an update
+                    const docRef = doc(userDocRef, 'todos', currentEditing.todo);
+                    await updateDoc(docRef, todoData);
+                    showToast("To-Do updated successfully!");
+                } else {
+                    // This is a new item
+                    todoData.createdAt = serverTimestamp();
+                    const collectionRef = collection(userDocRef, 'todos');
+                    await addDoc(collectionRef, todoData);
+                    showToast("To-Do added successfully!");
+                }
+                resetTodoForm();
+            } catch (error) {
+                console.error("Error saving to-do:", error);
+                showToast("Failed to save to-do.", "error");
+            }
+        }
+
+        function editTodo(docId) {
+            const todo = todos.find(t => t.id === docId);
+            if (!todo) return;
+
+            currentEditing.todo = docId;
+            document.getElementById('todo-name-entry').value = todo.name;
+            document.getElementById('todo-due-date-entry').value = todo.dueDate || '';
+            document.getElementById('todo-urgency-entry').value = todo.urgency || '3';
+
+            document.getElementById('add-todo-btn').classList.add('hidden');
+            document.getElementById('save-todo-btn').classList.remove('hidden');
+            document.getElementById('cancel-edit-todo-btn').classList.remove('hidden');
+
+            showToast(`Editing: ${todo.name}`);
+            document.getElementById('todo-name-entry').focus();
+        }
+
+        async function deleteTodo(docId) {
+            if (!docId) {
+                console.error("Delete failed: No document ID provided.");
+                return;
+            }
+
+            if (!confirm("Are you sure you want to delete this to-do item?")) {
+                return; // User clicked "Cancel"
+            }
+            
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                const docRef = doc(userDocRef, 'todos', docId);
+                await deleteDoc(docRef);
+                showToast("To-Do deleted.");
+                if (currentEditing.todo === docId) resetTodoForm();
+            } catch (error) {
+                console.error("Error deleting to-do from Firestore:", error);
+                showToast("Failed to delete to-do. Check console for errors.", "error");
+            }
+        }
+
+        async function toggleTodoComplete(docId) {
+            const todo = todos.find(t => t.id === docId);
+            if (!todo) return;
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                const docRef = doc(userDocRef, 'todos', docId);
+                await updateDoc(docRef, { completed: !todo.completed });
+                showToast("Task status updated!");
+            } catch (error) {
+                console.error("Error toggling to-do status:", error);
+                showToast("Failed to update status.", "error");
+            }
+        }
+
+        function resetTodoForm() {
+            currentEditing.todo = null;
+            document.getElementById('todo-name-entry').value = '';
+            document.getElementById('todo-due-date-entry').value = '';
+            document.getElementById('todo-urgency-entry').value = '3'; // Default to Medium
+
+            document.getElementById('add-todo-btn').classList.remove('hidden');
+            document.getElementById('save-todo-btn').classList.add('hidden');
+            document.getElementById('cancel-edit-todo-btn').classList.add('hidden');
+        }
+
+        function refreshTodoList() {
+            const listEl = document.getElementById('todo-list');
+            listEl.innerHTML = '';
+
+            const sortBy = document.getElementById('todo-sort-by').value;
+            
+            // Separate completed and incomplete tasks
+            const incompleteTodos = todos.filter(todo => !todo.completed);
+            const completedTodos = todos.filter(todo => todo.completed);
+
+            const sortedIncompleteTodos = [...incompleteTodos].sort((a, b) => {
+                if (sortBy === 'Urgency') {
+                    return parseInt(b.urgency || 0) - parseInt(a.urgency || 0); 
+                }
+                if (sortBy === 'DueDate') {
+                    const dateA = a.dueDate ? new Date(a.dueDate) : new Date('9999-12-31');
+                    const dateB = b.dueDate ? new Date(b.dueDate) : new Date('9999-12-31');
+                    return dateA.getTime() - dateB.getTime();
+                }
+                // Default to Name sort
+                return a.name.localeCompare(b.name);
+            });
+
+            const finalSortedTodos = sortedIncompleteTodos.concat(completedTodos);
+
+            const urgencyTextColors = {
+                "5": "text-red-800",      // Very High
+                "4": "text-orange-600",   // High
+                "3": "text-gray-600",     // Medium
+                "2": "text-green-700",    // Low
+                "1": "text-green-400"      // Very Low
+            };
+
+            if (finalSortedTodos.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-500">No tasks yet. Add one above!</p>`;
+                return;
+            }
+
+            finalSortedTodos.forEach(todo => {
+                const item = document.createElement('div');
+                item.className = 'p-2 border-b flex justify-between items-center';
+                const isCompleted = todo.completed;
+                
+                const urgencyColorClass = urgencyTextColors[todo.urgency] || 'text-gray-800';
+
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="toggle-todo-complete" data-id="${todo.id}" ${isCompleted ? 'checked' : ''}>
+                        
+                        <div class="flex-grow ${isCompleted ? 'line-through text-gray-400' : urgencyColorClass}">
+                            <p class="font-semibold">${todo.name}</p>
+                            <div class="text-xs">
+                                ${todo.dueDate ? `<span>Due: ${todo.dueDate}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="edit-todo-btn btn btn-sm btn-secondary" data-id="${todo.id}"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-todo-btn btn btn-sm btn-danger" data-id="${todo.id}"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+
+            listEl.querySelectorAll('.edit-todo-btn').forEach(btn => btn.addEventListener('click', (e) => editTodo(e.currentTarget.dataset.id)));
+            listEl.querySelectorAll('.delete-todo-btn').forEach(btn => btn.addEventListener('click', (e) => deleteTodo(e.currentTarget.dataset.id)));
+            listEl.querySelectorAll('.toggle-todo-complete').forEach(cb => cb.addEventListener('change', (e) => toggleTodoComplete(e.currentTarget.dataset.id)));
+        }
+
+        // --- TASKS & CALENDAR ---
+        async function addOrUpdateTask() {
+            const taskName = document.getElementById('task-entry').value.trim();
+            const dueDate = document.getElementById('task-due-date-entry').value;
+            if (!taskName || !dueDate) return showToast("Task name and due date are required.", "error");
+            
+            const status = document.querySelector('input[name="task-status"]:checked').value;
+            const taskData = { name: taskName, date: dueDate, status };
+            
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                
+                if (currentEditing.task) {
+                    const docRef = doc(userDocRef, 'tasks', currentEditing.task);
+                    await updateDoc(docRef, taskData);
+                    showToast("Task updated!");
+                } else {
+                    const collectionRef = collection(userDocRef, 'tasks');
+                    await addDoc(collectionRef, taskData);
+                    showToast("Task added!");
+                }
+                resetTaskForm();
+            } catch (error) {
+                console.error("Error saving task:", error);
+                showToast("Failed to save task.", "error");
+            }
+        }
+        
+        function editTask(docId) {
+            const task = tasks.find(t => t.id === docId);
+            if (!task) return;
+            
+            currentEditing.task = docId;
+            document.getElementById('task-entry').value = task.name;
+            document.getElementById('task-due-date-entry').value = task.date;
+            document.querySelector(`input[name="task-status"][value="${task.status}"]`).checked = true;
+            
+            showToast(`Editing: ${task.name}`);
+            document.getElementById('task-entry').focus();
+        }
+
+        async function deleteTask(docId) {
+            if (!confirm("Are you sure you want to delete this task?")) return;
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                await deleteDoc(doc(userDocRef, 'tasks', docId));
+                showToast("Task deleted.");
+                if (currentEditing.task === docId) resetTaskForm();
+            } catch (error) {
+                console.error("Error deleting task:", error);
+                showToast("Failed to delete task.", "error");
+            }
+        }
+        
+        function resetTaskForm() {
+            currentEditing.task = null;
+            document.getElementById('task-entry').value = '';
+            document.getElementById('task-due-date-entry').value = '';
+            document.querySelector('input[name="task-status"][value="Pending"]').checked = true;
+        }
+
+        function refreshTaskList() {
+            const listEl = document.getElementById('task-list');
+            listEl.innerHTML = '';
+            
+            const sortedTasks = [...tasks].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (sortedTasks.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-500">No tasks yet.</p>`;
+                return;
+            }
+
+            sortedTasks.forEach(task => {
+                const item = document.createElement('div');
+                item.className = 'p-2 border-b flex justify-between items-center';
+                const isCompleted = task.status === 'Completed';
+                item.innerHTML = `
+                    <div>
+                        <p class="${isCompleted ? 'line-through text-gray-500' : 'font-semibold'}">${task.name}</p>
+                        <p class="text-sm text-gray-600">Due: ${task.date}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="edit-task-btn btn btn-sm btn-secondary" data-id="${task.id}"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-task-btn btn btn-sm btn-danger" data-id="${task.id}"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+            
+            listEl.querySelectorAll('.edit-task-btn').forEach(btn => btn.addEventListener('click', (e) => editTask(e.currentTarget.dataset.id)));
+            listEl.querySelectorAll('.delete-task-btn').forEach(btn => btn.addEventListener('click', (e) => deleteTask(e.currentTarget.dataset.id)));
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+            document.getElementById('calendar-month-year').textContent = calendarDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            const month = calendarDate.getMonth();
+            const year = calendarDate.getFullYear();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Day headers
+            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(day => {
+                grid.innerHTML += `<div class="font-bold text-sm">${day}</div>`;
+            });
+
+            // Blank days
+            for (let i = 0; i < firstDay; i++) {
+                grid.innerHTML += '<div></div>';
+            }
+
+            // Month days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const tasksOnDay = tasks.filter(t => t.date === dateStr);
+                const hasTask = tasksOnDay.length > 0;
+                const isToday = new Date().toDateString() === new Date(year, month, day).toDateString();
+
+                let dayClasses = 'p-2 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer';
+                if (isToday) dayClasses += ' bg-blue-500 text-white';
+                if (hasTask) dayClasses += ` ${isToday ? '' : 'bg-yellow-300'} ring-2 ring-yellow-500`;
+                
+                grid.innerHTML += `<div class="${dayClasses}" title="${tasksOnDay.map(t => t.name).join(', ')}">${day}</div>`;
+            }
+        }
+        
+        // --- BOARDS ---
+        async function addOrUpdateBoard() {
+            const name = document.getElementById('board-name-entry').value.trim();
+            if (!name) return showToast("Board name is required.", "error");
+            
+            const link = document.getElementById('board-link-entry').value.trim();
+            const boardData = { name, link, last_hash: null, has_update: false };
+
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                
+                if (currentEditing.board) {
+                    const docRef = doc(userDocRef, 'boards', currentEditing.board);
+                    const existingBoard = boards.find(b => b.id === currentEditing.board);
+                    boardData.last_hash = existingBoard.last_hash;
+                    boardData.has_update = existingBoard.has_update;
+                    await updateDoc(docRef, { name, link });
+                    showToast("Board updated!");
+                } else {
+                    const collectionRef = collection(userDocRef, 'boards');
+                    await addDoc(collectionRef, boardData);
+                    showToast("Board added!");
+                }
+                resetBoardForm();
+            } catch (error) {
+                console.error("Error saving board:", error);
+                showToast("Failed to save board.", "error");
+            }
+        }
+        
+        function editBoard(docId) {
+            const board = boards.find(b => b.id === docId);
+            if (!board) return;
+            
+            currentEditing.board = docId;
+            document.getElementById('board-name-entry').value = board.name;
+            document.getElementById('board-link-entry').value = board.link || '';
+            
+            showToast(`Editing: ${board.name}`);
+            document.getElementById('board-name-entry').focus();
+        }
+
+        async function deleteBoard(docId) {
+            if (!confirm("Are you sure you want to delete this board?")) return;
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                await deleteDoc(doc(userDocRef, 'boards', docId));
+                showToast("Board deleted.");
+                if (currentEditing.board === docId) resetBoardForm();
+            } catch (error) {
+                console.error("Error deleting board:", error);
+                showToast("Failed to delete board.", "error");
+            }
+        }
+        
+        function resetBoardForm() {
+            currentEditing.board = null;
+            document.getElementById('board-name-entry').value = '';
+            document.getElementById('board-link-entry').value = '';
+        }
+        
+        function refreshBoardsList() {
+            const listEl = document.getElementById('boards-list');
+            listEl.innerHTML = '';
+            
+            const sortedBoards = [...boards].sort((a, b) => a.name.localeCompare(b.name));
+
+            if (sortedBoards.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-500">No boards yet.</p>`;
+                return;
+            }
+
+            sortedBoards.forEach(board => {
+                const item = document.createElement('div');
+                item.className = 'p-2 border-b flex justify-between items-center';
+                const updateIcon = board.has_update ? `<i class="fas fa-star text-yellow-500 mr-2"></i>` : '';
+                const boardNameEl = board.link ? `<a href="${board.link}" target="_blank" class="hover:underline">${board.name} <i class="fas fa-external-link-alt text-xs"></i></a>` : board.name;
+
+                item.innerHTML = `
+                    <div>
+                        <p class="${board.has_update ? 'has-update' : ''}">${updateIcon}${boardNameEl}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="edit-board-btn btn btn-sm btn-secondary" data-id="${board.id}"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-board-btn btn btn-sm btn-danger" data-id="${board.id}"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+            
+            listEl.querySelectorAll('.edit-board-btn').forEach(btn => btn.addEventListener('click', (e) => editBoard(e.currentTarget.dataset.id)));
+            listEl.querySelectorAll('.delete-board-btn').forEach(btn => btn.addEventListener('click', (e) => deleteBoard(e.currentTarget.dataset.id)));
+        }
+
+        // --- WEBSITE CHECKER ---
+        async function checkAllBoardsForUpdates() {
+            const btn = document.getElementById('check-updates-btn');
+            const btnText = btn.querySelector('.btn-text');
+            const loader = btn.querySelector('.loader');
+
+            btn.disabled = true;
+            btnText.classList.add('hidden');
+            loader.classList.remove('hidden');
+            showToast("Checking websites for updates... This may take a moment.");
+
+            const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+            const batch = writeBatch(db);
+            let updatesFound = 0;
+
+            for (const board of boards) {
+                if (!board.link || !board.link.startsWith('http')) continue;
+
+                const prompt = `Fetch the text content of the website at this URL: ${board.link}. Then, create an MD5 hash of that text content. Respond with ONLY the MD5 hash and nothing else.`;
+                
+                try {
+                    const currentHash = await generateContentWithGemini(prompt);
+                    if (currentHash && board.last_hash && currentHash !== board.last_hash) {
+                        const docRef = doc(userDocRef, 'boards', board.id);
+                        batch.update(docRef, { last_hash: currentHash, has_update: true });
+                        updatesFound++;
+                    } else if (currentHash && !board.last_hash) {
+                        const docRef = doc(userDocRef, 'boards', board.id);
+                        batch.update(docRef, { last_hash: currentHash });
+                    }
+                } catch (error) {
+                    console.error(`Failed to check ${board.name}:`, error);
+                }
+            }
+
+            if (updatesFound > 0) {
+                try {
+                    await batch.commit();
+                    showToast(`Update check complete. Found ${updatesFound} new update(s)!`, "success");
+                } catch (error) {
+                    console.error("Error committing board updates:", error);
+                    showToast("Failed to save board updates.", "error");
+                }
+            } else {
+                showToast("Update check complete. No new changes detected.");
+            }
+            
+            btn.disabled = false;
+            btnText.classList.remove('hidden');
+            loader.classList.add('hidden');
+        }
+        
+        // --- FILES ---
+        async function addOrUpdateFile() {
+            const name = document.getElementById('file-name-entry').value.trim();
+            if (!name) return showToast("File name is required.", "error");
+            
+            const link = document.getElementById('file-link-entry').value.trim();
+            const fileData = { name, link };
+
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                
+                if (currentEditing.file) {
+                    const docRef = doc(userDocRef, 'files', currentEditing.file);
+                    await updateDoc(docRef, fileData);
+                    showToast("File updated!");
+                } else {
+                    const collectionRef = collection(userDocRef, 'files');
+                    await addDoc(collectionRef, fileData);
+                    showToast("File added!");
+                }
+                resetFileForm();
+            } catch (error) {
+                console.error("Error saving file:", error);
+                showToast("Failed to save file.", "error");
+            }
+        }
+        
+        function editFile(docId) {
+            const file = files.find(f => f.id === docId);
+            if (!file) return;
+            
+            currentEditing.file = docId;
+            document.getElementById('file-name-entry').value = file.name;
+            document.getElementById('file-link-entry').value = file.link || '';
+            
+            showToast(`Editing: ${file.name}`);
+            document.getElementById('file-name-entry').focus();
+        }
+
+        async function deleteFile(docId) {
+            if (!confirm("Are you sure you want to delete this file link?")) return;
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+                await deleteDoc(doc(userDocRef, 'files', docId));
+                showToast("File link deleted.");
+                if (currentEditing.file === docId) resetFileForm();
+            } catch (error) {
+                console.error("Error deleting file:", error);
+                showToast("Failed to delete file link.", "error");
+            }
+        }
+        
+        function resetFileForm() {
+            currentEditing.file = null;
+            document.getElementById('file-name-entry').value = '';
+            document.getElementById('file-link-entry').value = '';
+        }
+        
+        function refreshFilesList() {
+            const listEl = document.getElementById('files-list');
+            listEl.innerHTML = '';
+            
+            const sortedFiles = [...files].sort((a, b) => a.name.localeCompare(b.name));
+
+            if (sortedFiles.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-500">No file links yet.</p>`;
+                return;
+            }
+
+            sortedFiles.forEach(file => {
+                const item = document.createElement('div');
+                item.className = 'p-2 border-b flex justify-between items-center';
+                item.innerHTML = `
+                    <div>
+                        <p>${file.name}</p>
+                         ${file.link ? `<a href="${file.link}" target="_blank" class="text-sm text-blue-500 hover:underline">Open Link <i class="fas fa-external-link-alt"></i></a>` : ''}
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="edit-file-btn btn btn-sm btn-secondary" data-id="${file.id}"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-file-btn btn btn-sm btn-danger" data-id="${file.id}"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+            
+            listEl.querySelectorAll('.edit-file-btn').forEach(btn => btn.addEventListener('click', (e) => editFile(e.currentTarget.dataset.id)));
+            listEl.querySelectorAll('.delete-file-btn').forEach(btn => btn.addEventListener('click', (e) => deleteFile(e.currentTarget.dataset.id)));
+        }
+
+        // --- MAP & GEOCODING ---
+        async function geocodeAddress(address) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+                }
+                showToast(`Could not find coordinates for "${address}".`, "error");
+                return null;
+            } catch (error) {
+                console.error("Geocoding error:", error);
+                showToast("Geocoding service is unavailable.", "error");
+                return null;
+            }
+        }
+
+        function refreshMapMarkers() {
+            if (!map) return;
+            map.eachLayer(layer => {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            const visibleStatuses = new Set();
+            document.querySelectorAll('.map-toggle:checked').forEach(checkbox => {
+                visibleStatuses.add(checkbox.value);
+            });
+
+            const statusColors = {
+                Open: '#f97316', // orange-500
+                Submitted: '#22c55e', // green-500
+                Rejected: '#6b7280', // gray-500
+                Parked: '#14b8a6' // teal-500
+            };
+
+            const locations = {};
+
+            applications.forEach(app => {
+                if (app.lat && app.lon && visibleStatuses.has(app.status)) {
+                    let { lat, lon } = app;
+                    const key = `${lat},${lon}`;
+                    if (locations[key]) {
+                        lat += (Math.random() - 0.5) * 0.001;
+                        lon += (Math.random() - 0.5) * 0.001;
+                    }
+                    locations[key] = true;
+
+                    const markerColor = statusColors[app.status] || 'red';
+                    
+                    const icon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<i class="fas fa-map-marker-alt" style="color:${markerColor}; font-size: 32px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);"></i>`,
+                        iconSize: [30, 42],
+                        iconAnchor: [15, 42]
+                    });
+
+                    const marker = L.marker([lat, lon], { icon: icon }).addTo(map);
+                    marker.bindPopup(`<b>${app.name}</b><br>${app.location}<br>Status: ${app.status}`);
+                }
+            });
+        }
+
+        // --- GEMINI API & NOTES FEATURES ---
+        async function openNotesModal(docId) {
+            highlightAppItem(docId);
+            const app = applications.find(a => a.id === docId);
+            if (!app) return;
+            
+            currentEditing.notes = docId;
+            aiModalTitle.textContent = `Notes for ${app.name}`;
+            aiModalContent.style.display = 'none';
+            notesTextarea.style.display = 'block';
+            saveNotesBtn.style.display = 'inline-block';
+            copyAiContentBtn.style.display = 'none';
+            aiModalLoader.style.display = 'none';
+            
+            notesTextarea.value = app.notes || '';
+            aiModal.classList.remove('hidden');
+            aiModal.classList.add('flex');
+        }
+
+        async function saveNotes() {
+            if (!currentEditing.notes) return;
+            const notes = notesTextarea.value;
+            const userDocRef = doc(db, `artifacts/${appId}/users/${userId}`);
+            const docRef = doc(userDocRef, 'applications', currentEditing.notes);
+            try {
+                await updateDoc(docRef, { notes: notes });
+                showToast("Notes saved successfully!");
+                aiModal.classList.add('hidden');
+                aiModal.classList.remove('flex');
+                currentEditing.notes = null;
+            } catch (error) {
+                console.error("Error saving notes:", error);
+                showToast("Failed to save notes.", "error");
+            }
+        }
+
+        async function draftResume(docId) {
+            highlightAppItem(docId);
+            const app = applications.find(a => a.id === docId);
+            if (!app || !app.link) {
+                showToast("Please add a job link to the application first.", "error");
+                return;
+            }
+            const skills = document.getElementById('master-resume-text').value;
+            if (!skills) {
+                showToast("Please add your Master Resume first.", "error");
+                return;
+            }
+
+            aiModalTitle.textContent = `AI Resume Assistant for ${app.name}`;
+            aiModalContent.innerHTML = '';
+            aiModalContent.style.display = 'none';
+            notesTextarea.style.display = 'none';
+            saveNotesBtn.style.display = 'none';
+            copyAiContentBtn.style.display = 'inline-block';
+            aiModalLoader.style.display = 'block';
+            aiModal.classList.remove('hidden');
+            aiModal.classList.add('flex');
+
+            // --- DYNAMIC PROMPT INJECTION ---
+            const rawTemplate = document.getElementById('prompt-template').value;
+            const prompt = rawTemplate
+                .replace('{skills}', skills)
+                .replace('{notes}', app.notes || 'None provided')
+                .replace('{link}', app.link);
+
+            const resume = await generateContentWithGemini(prompt);
+            
+            aiModalLoader.style.display = 'none';
+            aiModalContent.style.display = 'block';
+            
+            if (resume) {
+                const converter = new showdown.Converter({
+                    tables: true,
+                    strikethrough: true,
+                    simplifiedAutoLink: true
+                });
+                const html = converter.makeHtml(resume);
+                aiModalContent.innerHTML = html;
+            } else {
+                aiModalContent.innerText = "Sorry, I couldn't generate a resume. Please try again.";
+            }
+        }
+        
+        async function autoFillFromUrl() {
+            const url = document.getElementById('job-link-entry').value;
+            if (!url) {
+                showToast("Please enter a URL first.", "error");
+                return;
+            }
+            showToast("Scraping website...");
+
+            try {
+                const rawText = await scrapeUrlWithNetlifyFunction(url);
+                if (!rawText) {
+                    showToast("Could not read the content from the URL.", "error");
+                    return;
+                }
+                
+                showToast("Extracting company name first...");
+
+                const companyNamePrompt = `The job posting is for a company in the pharmaceutical or biotechnology sector. From the following text and URL, what is the company name? The company name is often the most prominent brand mentioned or can be derived from the website URL. Respond with ONLY the company name and nothing else. If you cannot determine the company name, respond with "Not specified".
+                
+                TEXT: """${rawText}"""
+                URL: ${url}`;
+                
+                const companyName = await generateContentWithGemini(companyNamePrompt);
+                
+                if (!companyName || companyName === "Not specified") {
+                    showToast("Could not determine the company name. Please enter it manually.", "error");
+                    document.getElementById('job-description-hidden').value = rawText;
+                    return;
+                }
+
+                showToast("Extracting remaining details with AI...");
+
+                const jsonExtractionPrompt = `I have already identified the company name as "${companyName}", which is in the pharmaceutical or biotechnology sector. From the following job posting text, extract the job title, the location, and the salary range.
+
+                For the salary, extract only the numerical value and any currency symbols (e.g., "$127,500 - $195,600"). Do not include any other words like "per year", "competitive", or "compensation". If a salary is not explicitly stated in the text, respond with "Not specified".
+                
+                Respond with ONLY a JSON object with the keys "jobTitle", "location", and "salary".
+                
+                TEXT:
+                """${rawText}"""`;
+
+                const payload = { 
+                    contents: [{ role: "user", parts: [{ text: jsonExtractionPrompt }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "jobTitle": { "type": "STRING" },
+                                "location": { "type": "STRING" },
+                                "salary": { "type": "STRING" }
+                            }
+                        }
+                    }
+                };
+                
+                const resultJson = await generateContentWithGemini(null, payload);
+                if (resultJson) {
+                    const data = JSON.parse(resultJson);
+                    
+                    const descriptionExtractionPrompt = `From the following job posting text, extract the full job description as plain text.\n\nTEXT:\n"""${rawText}"""`;
+                    const jobDescription = await generateContentWithGemini(descriptionExtractionPrompt);
+
+                    document.getElementById('job-name-entry').value = `${companyName} - ${data.jobTitle || ''}`;
+                    document.getElementById('location-entry').value = data.location || '';
+                    document.getElementById('job-description-hidden').value = jobDescription || '';
+                    document.getElementById('salary-entry').value = data.salary || ''; 
+                    showToast("Details auto-filled!", "success");
+                } else {
+                    showToast("Could not extract job details.", "error");
+                }
+            } catch(e) {
+                console.error("Auto-fill process failed:", e);
+                showToast(`Auto-fill failed: ${e.message}`, "error");
+            }
+        }
+        
+        async function testApiKey() {
+            showToast("Testing Gemini API Key...");
+            const prompt = "What is the capital of the USA?";
+            try {
+                const result = await generateContentWithGemini(prompt);
+                if (result) {
+                    showToast(`API Test Success: ${result}`, "success");
+                } else {
+                    throw new Error("No content returned.");
+                }
+            } catch (error) {
+                console.error("API Test Failed:", error);
+                showToast(`API Test Failed. Check console for details. Error: ${error.message}`, "error");
+            }
+        }
+
+        async function testScraper() {
+            showToast("Testing Scraper Function...");
+            try {
+                const text = await scrapeUrlWithNetlifyFunction('https://www.google.com');
+                if (text && text.length > 0) {
+                    showToast("Scraper Function Test Success!", "success");
+                } else {
+                    throw new Error("No content returned from scraper function.");
+                }
+            } catch (error) {
+                console.error("Scraper Function Test Failed:", error);
+                showToast(`Scraper Function Test Failed. Error: ${error.message}`, "error");
+            }
+        }
+
+        async function scrapeUrlWithNetlifyFunction(url) {
+            const functionUrl = `/.netlify/functions/scrape`;
+            try {
+                const response = await fetch(functionUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+
+                if (!response.ok) {
+                    const errorBody = await response.text();
+                    throw new Error(`Scraping function failed: ${errorBody}`);
+                }
+                const result = await response.json();
+                return result.text;
+            } catch (error) {
+                console.error("Scraper: Error in fetch to Netlify function:", error);
+                throw error;
+            }
+        }
+
+        async function generateContentWithGemini(prompt, payload = null) {
+            if (GEMINI_API_KEY === "PASTE_YOUR_GEMINI_API_KEY_HERE") {
+                throw new Error("API Key is not set in the code.");
+            }
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+            
+            if (!payload) {
+                payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    const errorBody = await response.text();
+                    throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                }
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0) {
+                   return result.candidates[0].content.parts[0].text.trim();
+                }
+                return null;
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                return null;
+            }
+        }
+
+        // --- UTILITIES ---
+        function normalizeUrl(urlString) {
+            if (!urlString) return '';
+            try {
+                const url = new URL(urlString);
+                return `${url.hostname}${url.pathname}`.replace(/\/$/, '');
+            } catch (e) {
+                return urlString.split('?')[0].split('#')[0].replace(/\/$/, '');
+            }
+        }
+        
+        function copyRichTextToClipboard(html) {
+            const listener = function(ev) {
+                ev.preventDefault();
+                ev.clipboardData.setData('text/html', html);
+                ev.clipboardData.setData('text/plain', aiModalContent.innerText);
+            };
+            document.addEventListener('copy', listener);
+            document.execCommand('copy');
+            document.removeEventListener('copy', listener);
+            showToast("Formatted text copied to clipboard!");
+        }
+
+        function highlightAppItem(docId) {
+            document.querySelectorAll('.app-item').forEach(item => item.classList.remove('active'));
+            if (docId) {
+                const listItem = document.querySelector(`.delete-app-btn[data-id="${docId}"]`).closest('.app-item');
+                if (listItem) listItem.classList.add('active');
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toast.className = 'fixed bottom-5 right-5 text-white py-2 px-4 rounded-lg shadow-lg transition-opacity duration-300 opacity-0';
+            if (type === 'error') {
+                toast.classList.add('bg-red-600');
+            } else if (type === 'success') {
+                toast.classList.add('bg-green-600');
+            } else {
+                toast.classList.add('bg-gray-800');
+            }
+
+            toastMessage.textContent = message;
+            toast.classList.remove('opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 5000);
+        }
+
+    </script>
+</body>
+</html>
